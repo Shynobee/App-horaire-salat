@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+
+<html>
+  <meta charset="UTF-8">
+<head>
+    <script>
+       var zoom = 12; 
+       
+       function init() {
+         if (window.postMessage) {
+           if (navigator && navigator.geolocation) {
+             try {
+               navigator.geolocation.getCurrentPosition(function(pPos) {
+               send(pPos.coords.latitude, pPos.coords.longitude);
+             }, function() {});
+             } catch (e) {}
+           } else if (google && google.gears) {
+             try {
+               var geoloc = google.gears.factory.create("beta.geolocation");
+               geoloc.getCurrentPosition(function(pPos) {
+               send(pPos.latitude, pPos.longitude);
+             }, function() {});
+             } catch (e) {}
+           }
+         }
+       }
+
+       function send(pLat, pLng) {
+         var myiframe = document.getElementById("myiframe").contentWindow;
+         myiframe.postMessage(pLat + "," + pLng + "," + zoom, "http://qib.la");
+       }
+       
+       window.onload=init;
+      </script>
+    <link rel="stylesheet" href="style.css">
+	<title> Horaire de prière </title>
+</head>
+
+<body>
+
+<script type="text/javascript" src="PrayTimes.js"></script>
+
+<br>
+<p align="center">Aulnay Sous Bois<p>
+<div align="center" id="table"></div>
+
+<script type="text/javascript">
+	
+	var date = new Date(); 
+	var times = prayTimes.getTimes(date, [48.98, 2.49], +1);
+  console.log(times);
+	var list = ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha', 'Midnight'];
+  document.getElementById('table').innerHTML = html;
+  // fixé la date 
+  console.log(times);
+  var countDownDate = times.fajr;
+  countDownDate= parseInt(countDownDate);
+  console.log("Je suis le fajr converti en number: "+ countDownDate+ "et je suis de type: "+typeof(countDownDate));
+
+  // decompte chaque seconde
+  var x = setInterval(function() {
+
+  // fixé le jour et l'heure actuelle
+  var now = new Date().getTime();
+console.log("Je suis now "+now);
+  // calcule du delta de temps
+  var distance = countDownDate - now;
+  console.log("Je suis l'ecart avec fajr "+distance);
+  // Calcul de temps
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  // afficher l'élément avec id="demo"
+  document.getElementById("demo").innerHTML = days + "d " + hours + "h "
+  + minutes + "m " + seconds + "s ";
+
+  // si le compte a rebour est fini afficher du texte
+  if (distance > 0) {
+    clearInterval(x);
+    document.getElementById("demo").innerHTML = "Adhan";
+  }
+}, 1000);
+	var html = '<div id="timetable">';
+	html += '<div id="date"><div>'+ date.toLocaleDateString()+ '</div></div>';
+	for(var i in list)	{
+		html += '<div id="heure"><div><p>' + list[i]+ '<br>' + '<br>' + times[list[i].toLowerCase()]+ '</p></div></div>';
+	}
+	html += '<div id=demo></div></div>';
+	document.getElementById('table').innerHTML = html;
+
+</script>
+      <iframe id="myiframe" src="http://qib.la/embed/">
+        Check the prayer direction towards the Ka'ba in Makkah at
+        <a href="http://qib.la/">Qibla Direction</a>.
+      </iframe>
+</body>
+</html>

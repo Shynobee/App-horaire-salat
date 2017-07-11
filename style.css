@@ -1,0 +1,69 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+body, td, th {
+    font-family: verdana; 
+    font-size: 12px; 
+    color: white;
+    background-color: green
+    }
+
+#timetable {
+    border-width: 1px; 
+    border-style: outset; 
+    border-collapse: collapse; 
+    border-color: white; 
+    width: 9em;
+    }
+
+#timetable td, #timetable th {
+    border-width: 1px; 
+    border-spacing: 1px; 
+    padding: 2px 4px; 
+    border-style: inset; 
+    border-color: #CCCCCC;
+    }
+
+#timetable th {
+    color:black; 
+    text-align: center; 
+    font-weight: bold; 
+    background-color: white;
+}
+
+#myiframe {
+    height: 40vh;
+    width: 95vw;
+    position: relative;
+    left: 0;
+}
+
+#timetable {
+    width: 98vw;
+    height: 100vh;
+}
+
+#date:nth-child(1) {
+    height: 40px;
+    border: 1px solid white;
+}
+
+#heure {
+    width: 170px;
+    height: 40vh;
+    display: inline-block;
+    
+    border: 1px solid white;
+}
+
+p {
+    text-align: center;
+    font-size: 40px;
+}
+
+#demo {
+    text-align: center;
+    font-size: 40px;
+}
